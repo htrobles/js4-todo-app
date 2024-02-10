@@ -1,56 +1,27 @@
-import React, { useState } from "react";
-import Task from "../Task";
-import { v4 as uuid } from "uuid";
+import React from 'react';
+import Task from '../Task';
 
-export default function Tasks() {
-  const [tasks, setTasks] = useState([
-    {
-      id: uuid(),
-      description: "Play with the Cat",
-      isCompleted: false,
-    },
-    {
-      id: uuid(),
-      description: "Cook Lunch",
-      isCompleted: true,
-    },
-    {
-      id: uuid(),
-      description: "Vacuum the Floor",
-      isCompleted: true,
-    },
-  ]);
-
-  const handleChangeStatus = (id) => {
-    const newTasks = [...tasks];
-
-    const updatedTask = newTasks.find((task) => task.id === id);
-
-    updatedTask.isCompleted = !updatedTask.isCompleted;
-
-    setTasks(newTasks);
-  };
-
-  const handleRemoveTask = (id) => {
-    const newTasks = tasks.filter((task) => task.id !== id);
-
-    setTasks(newTasks);
-  };
-
-  const handleClearTasks = () => {
-    setTasks([]);
-  };
-
+export default function Tasks({
+  tasks,
+  onChangeStatus,
+  onRemoveTask,
+  onClearTasks,
+}) {
   return (
     <>
-      <div className="tasks">
+      <div className='tasks'>
         {tasks.map((task) => (
-          <Task task={task} onChangeStatus={handleChangeStatus} onRemoveTask={handleRemoveTask} />
+          <Task
+            key={task.id}
+            task={task}
+            onChangeStatus={onChangeStatus}
+            onRemoveTask={onRemoveTask}
+          />
         ))}
       </div>
-        {tasks.length ? (
-          <button onClick={handleClearTasks}>Clear Tasks</button>
-        ) : null}
+      {tasks.length ? (
+        <button onClick={onClearTasks}>Clear Tasks</button>
+      ) : null}
     </>
   );
 }
